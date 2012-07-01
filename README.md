@@ -5,6 +5,8 @@ because you should be monitoring all of those [non-blocking buffet plates.](http
 
 ## Installation
 
+Riemann uses [Google Protocol Buffers](http://code.google.com/p/protobuf/), so make sure thats installed beforehand, and available on your `PATH`.
+
 ```
 npm install riemann
 ```

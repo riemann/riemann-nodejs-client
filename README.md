@@ -6,7 +6,7 @@ because you should be monitoring all of those [non-blocking buffet plates.](http
 ## Installation
 
 ```
-npm install riemann-client
+npm install riemann
 ```
 
 **NOTE:** unfortuantely, this module only works with node v0.6.x, __for the time being__. There is a problem with node's protocol buffers library support in node v0.8.x. [If you'd like to contribute to solving that problem](https://github.com/chrisdew/protobuf/issues/8), it'd be greatly appreciated!

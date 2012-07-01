@@ -24,7 +24,7 @@ var MAX_UDP_BUFFER_SIZE = 16384;
 function Client(options, onConnect) {
   events.EventEmitter.call(this);
 
-  options.host = options.host ? options.host : '127.0.0.1'l
+  options.host = options.host ? options.host : '127.0.0.1';
   options.port = options.port ? Number(options.port) : 5555;
 
   if (onConnect) { this.once('connect', onConnect); }

@@ -34,7 +34,7 @@ client.send(client.Event({
 }));
 ```
 
-If you wanted to send that message over TCP and receive an acknowledgement, you can specify the transport you wish to use:
+If you wanted to send that message over TCP and receive an acknowledgement, you can specify the transport, explicitly:
 
 ```js
 client.on('data', function(ack) { console.log('got it!'); });

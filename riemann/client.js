@@ -15,6 +15,31 @@ var Socket = require('./socket');
 
 
 var MAX_UDP_BUFFER_SIZE = 16384;
+function _sendMessage(contents) {
+  var self = this;
+  return function() {
+    // all events are wrapped in the Message type.
+    var message = Serializer.serializeMessage(contents);
+
+    // if we're sending a message that is larger than the max buffer
+    // size of UDP, we should switch over to TCP.
+    if (message.length >= MAX_UDP_BUFFER_SIZE) {
+      self.tcp.send(message);
+    } else {
+      this.send(message);
+    }
+  };
+}
+
+
+/* some friendly defaults for event,
+   in case they went missing. */
+function _defaultValues(payload) {
+  if (!payload.host)  { payload.host = hostname; }
+  if (!payload.time)  { payload.time = new Date().getTime()/1000; }
+  if (payload.metric) { payload.metricF = payload.metric; }
+  return payload;
+}
 
 
 /* sets up a client connection to a Riemann server.
@@ -59,29 +84,21 @@ inherits(Client, events.EventEmitter);
 exports.Client = Client;
 
 
-/* Primary type of event we submit to the
-   server, takes a key/value object of valid
+/* Submits an Event to the server.
+   takes a key/value object of valid
    Event protocol buffer values. */
 Client.prototype.Event = function(event) {
-  // some friendly defaults for event,
-  // in case they went missing.
-  if (!event.host)  { event.host = hostname; }
-  if (!event.time)  { event.time = new Date().getTime()/1000; }
-  if (event.metric) { event.metricF = event.metric; }
+  event = _defaultValues(event);
+  return _sendMessage.call(this, { events: [event] });
+};
 
-  var self = this;
-  return function() {
-    // all events are wrapped in the Message type.
-    var message = Serializer.serializeMessage({ events: [event] });
 
-    // if we're sending a message that is larger than the max buffer
-    // size of UDP, we should switch over to TCP.
-    if (message.length >= MAX_UDP_BUFFER_SIZE) {
-      self.tcp.send(message);
-    } else {
-      this.send(message);
-    }
-  };
+/* Submits a State to the server.
+   takes a key/value object of valid
+   State protocol buffer values. */
+Client.prototype.State = function(state) {
+  state = _defaultValues(state);
+  return _sendMessage.call(this, { states: [state] });
 };
 
 

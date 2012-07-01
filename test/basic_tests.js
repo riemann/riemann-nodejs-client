@@ -5,7 +5,7 @@ var util = require('util');
 
 var client;
 test("should connect to server", function(done) {
-  client = require('riemann').createClient({host: 'ec2-184-169-214-172.us-west-1.compute.amazonaws.com'});
+  client = require('riemann').createClient();
   assert(client instanceof EventEmitter);
   client.on('connect', done);
 });

@@ -5,6 +5,7 @@
   "author": {
     "Derek Perez": "derek@derekperez.com"
   },
+  "main": "riemann",
   "engines": { "node": ">= 0.6.0 < 0.7.0" },
   "repository": {
     "type": "git",

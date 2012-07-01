@@ -4,7 +4,7 @@ var riemannSchema;
 if (!riemannSchema) {
   var Schema    = require('protobuf').Schema;
   var readFile  = require('fs').readFileSync;
-  riemannSchema = new Schema(readFile('./riemann/proto/proto.desc'));
+  riemannSchema = new Schema(readFile(__dirname+'/proto/proto.desc'));
 }
 
 function _serialize(type, value) {

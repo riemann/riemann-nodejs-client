@@ -22,7 +22,7 @@ client.on('connect', function() { console.log('connected!'); });
 
 Just like [Riemann ruby client](https://github.com/aphyr/riemann-ruby-client), the client sends small events over UDP, by default. TCP is used for queries, and large events. There is no acknowledgement of UDP packets, but they are roughly an order of magnitude faster than TCP. We assume both TCP and UDP are listening to the same port.
 
-sending events is easy (see [list of valid event properties](https://www.github.com/perezd/riemann-nodejs-client)):
+sending events is easy (see [list of valid event properties](https://github.com/perezd/riemann-nodejs-client/blob/master/riemann/proto/proto.proto)):
 
 ```js
 client.send(client.Event({

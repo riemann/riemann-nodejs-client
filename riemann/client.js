@@ -48,7 +48,7 @@ function _defaultValues(payload) {
     - port (eg; 5555 -- default) */
 function Client(options, onConnect) {
   events.EventEmitter.call(this);
-
+  if (!options) { options = {}; }
   options.host = options.host ? options.host : '127.0.0.1';
   options.port = options.port ? Number(options.port) : 5555;
 

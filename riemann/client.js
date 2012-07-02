@@ -102,8 +102,9 @@ Client.prototype.State = function(state) {
 };
 
 
-/* sends an event to Riemann. Exepects an Event
-   payload, and an optional (forced) transport (TCP or UDP). */
+/* sends a payload to Riemann. Exepects any valid payload type
+   (eg: Event, State, Query...) and an optional (requested, not guaranteed)
+   transport (TCP or UDP). */
 Client.prototype.send = function(payload, transport) {
   if (transport) {
     assert(transport === this.tcp || transport === this.udp, 'invalid transport provided.');

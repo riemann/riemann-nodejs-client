@@ -1,6 +1,6 @@
 {
   "name" : "riemann",
-  "version" : "0.0.3",
+  "version" : "0.0.4",
   "description" : "node.js client for Riemann, supports hybrid UDP/TCP connections.",
   "author": {
     "Derek Perez": "derek@derekperez.com"
@@ -12,7 +12,7 @@
     "url": "git://github.com/perezd/riemann-nodejs-client.git"
   },
   "dependencies" :{
-    "protobuf" : "0.3.1"
+    "protobuf" : "0.3.2"
   },
   "devDependencies" : {
     "mocha" : "*",

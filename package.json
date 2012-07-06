@@ -1,9 +1,10 @@
 {
   "name" : "riemann",
-  "version" : "0.0.4",
+  "version" : "0.1.0",
   "description" : "node.js client for Riemann, supports hybrid UDP/TCP connections.",
   "author": {
-    "Derek Perez": "derek@derekperez.com"
+    "Derek Perez": "derek@derekperez.com",
+    "Julien Boeuf": "julien@boeuf.org"
   },
   "main": "riemann",
   "engines": { "node": ">= 0.6.0 < 0.7.0" },
@@ -20,6 +21,6 @@
   },
   "scripts": {
     "lint": "find . -name '*.js' -and -not -path './node_modules/*' | xargs ./node_modules/.bin/jshint --config ./.jshint",
-    "test": "NODE_PATH=./ mocha --ui tdd --reporter list --timeout 10000 --slow 5000"
+    "test": "NODE_PATH=./ mocha --ui tdd --reporter list --timeout 2000 --slow 5000"
   }
 }

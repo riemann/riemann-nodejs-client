@@ -16,7 +16,6 @@ udpSocket.prototype.send = function(payload) {
 };
 
 
-
 exports.tcpSocket = tcpSocket;
 function tcpSocket(options) {
   this.socket = new tcp.Socket();
@@ -33,12 +32,14 @@ function tcpSocket(options) {
   this._payloadOffset   = 0;
 }
 
+
 function _getResponseLength(chunk) {
   return (chunk[0] << 24) +
          (chunk[1] << 16) +
          (chunk[2] << 8)  +
          (chunk[3]);
 }
+
 
 tcpSocket.prototype.onMessage = function(emit) {
   var self = this;

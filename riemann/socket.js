@@ -58,8 +58,8 @@ tcpSocket.prototype.onMessage = function(emit) {
           } else {
             chunk.copy(self._lenBuffer, self._lenBufferOffset);
             self._lenBufferOffset += chunk.length;
-            break;
           }
+          break;
 
         case 2: // copy data and emit
           var copyLen = Math.min(self._payloadBuffer.length, chunk.length-chunkOffset);

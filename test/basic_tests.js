@@ -21,12 +21,14 @@ test("should send an event as udp", function(done) {
 
 
 test("should send an event as tcp", function(done) {
-  var counter = 100;
+  var counter = 2;
 
-  client.on('data', function(data) {
+  var listener;
+  client.on('data', listener = function(data) {
     assert(data.ok);
     if (--counter === 0) {
-      done()
+      client.removeListener('data', listener);
+      setTimeout(done, 100);
     }
   });
 
@@ -50,11 +52,36 @@ test("should send a state as udp", function(done) {
 
 
 test("should send a state as tcp", function(done) {
-  client.once('data', function(data) { assert(data.ok); done() });
-  client.send(client.State({
-    service: 'state_tcp',
-    state: 'ok'
-  }), client.tcp);
+  var counter = 2;
+
+  var listener;
+  client.on('data', listener = function(data) {
+    assert(data.ok);
+    if (--counter === 0) {
+      client.removeListener('data', listener);
+      setTimeout(done, 100);
+    }
+  });
+
+  for (var i = parseInt(counter); i >= 0; i--) {
+    client.send(client.State({
+      service: 'state_tcp',
+      state: 'ok'
+    }), client.tcp);
+  }
+});
+
+
+test("should query the server", function(done) {
+  client.on('data', function(data) {
+    assert(data.ok);
+    assert(Array.isArray(data.events));
+    setTimeout(done, 100);
+  });
+  client.send(client.Query({
+    string: "true"
+  }));
+
 });
 
 
@@ -62,3 +89,4 @@ test("should disconnect from server", function(done) {
   client.once('disconnect', done);
   client.disconnect();
 });
+

@@ -15,16 +15,24 @@ var Socket = require('./socket');
 
 
 var MAX_UDP_BUFFER_SIZE = 16384;
-function _sendMessage(contents) {
+function _sendMessage(contents, transport) {
   var self = this;
   return function() {
     // all events are wrapped in the Message type.
     var message = Serializer.serializeMessage(contents);
 
+    // if an explict transport is specified via code,
+    // at definition of this message, we trust it.
+    if (transport) {
+      transport.send(message);
+
     // if we're sending a message that is larger than the max buffer
     // size of UDP, we should switch over to TCP.
-    if (message.length >= MAX_UDP_BUFFER_SIZE) {
+    } else if (message.length >= MAX_UDP_BUFFER_SIZE) {
       self.tcp.send(message);
+
+    // utilize whatever transport this message is applied to,
+    // by caller.
     } else {
       this.send(message);
     }
@@ -99,6 +107,14 @@ Client.prototype.Event = function(event) {
 Client.prototype.State = function(state) {
   state = _defaultValues(state);
   return _sendMessage.call(this, { states: [state] });
+};
+
+
+/* Submits a Query to the server.
+  takes a key/value object of valid
+  Query protocol buffer values. */
+Client.prototype.Query = function(query) {
+  return _sendMessage.call(this, { query: query }, this.tcp);
 };
 
 

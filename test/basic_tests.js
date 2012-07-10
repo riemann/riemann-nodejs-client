@@ -21,7 +21,7 @@ test("should send an event as udp", function(done) {
 
 
 test("should send an event as tcp", function(done) {
-  var counter = 2;
+  var counter = 10;
 
   var listener;
   client.on('data', listener = function(data) {
@@ -32,12 +32,12 @@ test("should send an event as tcp", function(done) {
     }
   });
 
-  for (var i = parseInt(counter); i >= 0; i--) {
+  for (var i = Number(counter); i >= 0; i--) {
     client.send(client.Event({
       service : 'hello_tcp_'+i,
       metric  : Math.random(100)*100,
       tags    : ['bar'] }), client.tcp);
-  };
+  }
 
 });
 
@@ -52,7 +52,7 @@ test("should send a state as udp", function(done) {
 
 
 test("should send a state as tcp", function(done) {
-  var counter = 2;
+  var counter = 10;
 
   var listener;
   client.on('data', listener = function(data) {
@@ -63,7 +63,7 @@ test("should send a state as tcp", function(done) {
     }
   });
 
-  for (var i = parseInt(counter); i >= 0; i--) {
+  for (var i = Number(counter); i >= 0; i--) {
     client.send(client.State({
       service: 'state_tcp',
       state: 'ok'

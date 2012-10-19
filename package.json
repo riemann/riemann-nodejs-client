@@ -7,13 +7,13 @@
     "Julien Boeuf": "julien@boeuf.org"
   },
   "main": "riemann",
-  "engines": { "node": ">= 0.6.0 < 0.7.0" },
+  "engines": { "node": "> 0.6.0" },
   "repository": {
     "type": "git",
     "url": "git://github.com/perezd/riemann-nodejs-client.git"
   },
   "dependencies" :{
-    "protobuf" : "0.3.2"
+    "protobuf" : "0.8.0"
   },
   "devDependencies" : {
     "mocha" : "*",

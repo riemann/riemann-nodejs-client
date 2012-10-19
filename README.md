@@ -11,8 +11,6 @@ Riemann uses [Google Protocol Buffers](http://code.google.com/p/protobuf/), so m
 npm install riemann
 ```
 
-**NOTE:** unfortuantely, this module only works with node v0.6.x, __for the time being__. There is a problem with node's protocol buffers library support in node v0.8.x. [If you'd like to contribute to solving that problem](https://github.com/chrisdew/protobuf/issues/8), it'd be greatly appreciated!
-
 ## Getting Started
 
 first things first, we'll want to establish a new client:

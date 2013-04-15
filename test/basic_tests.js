@@ -11,6 +11,13 @@ test("should connect to server", function(done) {
 });
 
 
+var server_down;
+test("should fire error event", function(done) {
+  server_down = require('riemann').createClient({port: 66500});
+  server_down.on('error', done);
+});
+
+
 test("should send an event as udp", function(done) {
   client.send(client.Event({
     service : 'hello_udp',

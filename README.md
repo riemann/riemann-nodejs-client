@@ -16,8 +16,14 @@ npm install riemann
 first things first, we'll want to establish a new client:
 
 ```js
-var client = require('riemann').createClient({ host: 'some.riemann.server', port: 5555 });
-client.on('connect', function() { console.log('connected!'); });
+var client = require('riemann').createClient({ 
+  host: 'some.riemann.server', 
+  port: 5555 
+});
+
+client.on('connect', function() { 
+  console.log('connected!');
+});
 ```
 
 Just like [Riemann ruby client](https://github.com/aphyr/riemann-ruby-client), the client sends small events over UDP, by default. TCP is used for queries, and large events. There is no acknowledgement of UDP packets, but they are roughly an order of magnitude faster than TCP. We assume both TCP and UDP are listening to the same port.
@@ -35,7 +41,9 @@ client.send(client.Event({
 If you wanted to send that message over TCP and receive an acknowledgement, you can specify the transport, explicitly:
 
 ```js
-client.on('data', function(ack) { console.log('got it!'); });
+client.on('data', function(ack) { 
+  console.log('got it!');
+});
 
 client.send(client.Event({
   service: 'buffet_plates',
@@ -47,7 +55,9 @@ client.send(client.Event({
 When you're done monitoring, disconnect:
 
 ```js
-client.on('disconnect', function(){ console.log('disconnected!'); });
+client.on('disconnect', function(){ 
+  console.log('disconnected!');
+});
 client.disconnect();
 ```
 

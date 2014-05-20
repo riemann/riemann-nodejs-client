@@ -24,7 +24,7 @@ test("should fire error event", function(done) {
 test("should send an event as udp", function(done) {
   client.send(client.Event({
     service : 'hello_udp',
-    metric  : Math.random(100)*100,
+    "metric_f"  : Math.random(100)*100,
     tags    : ['bar'] }), client.udp);
   done();
 });
@@ -45,7 +45,7 @@ test("should send an event as tcp", function(done) {
   for (var i = Number(counter); i >= 0; i--) {
     client.send(client.Event({
       service : 'hello_tcp_'+i,
-      metric  : Math.random(100)*100,
+      "metric_f"  : Math.random(100)*100,
       tags    : ['bar'] }), client.tcp);
   }
 

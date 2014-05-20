@@ -1,14 +1,14 @@
-# [Riemann](http://aphyr.github.com/riemann/) Node.js Client
+# [Riemann](http://aphyr.github.com/riemann/) Node.js Client (in pure JS)
 
 because you should be monitoring all of those [non-blocking buffet plates.](http://www.infinitelooper.com/?v=-sfZqL4Plxc&p=n#/242;267)
 
 
 ## Installation
 
-Riemann uses [Google Protocol Buffers](http://code.google.com/p/protobuf/), so make sure thats installed beforehand, and available on your `PATH`.
+Riemannjs uses [ProtoBuf.js](https://github.com/dcodeIO/ProtoBuf.js), so no native dependencies.
 
 ```
-npm install riemann
+npm install riemannjs
 ```
 
 ## Getting Started

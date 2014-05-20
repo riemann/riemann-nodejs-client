@@ -1,6 +1,6 @@
 {
   "name": "riemannjs",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pure JS client for Riemann, supports hybrid UDP/TCP connections.",
   "author": {
     "name": "James Butler",
@@ -29,8 +29,8 @@
     "type": "git",
     "url": "git://github.com/sandfox/riemann-nodejs-client.git"
   },
-  "homepage": "http://github.com/sandfox/riemann-nodejs-client",
-  "bugs": "http://github.com/sandfox/riemann-nodejs-client/issues",
+  "homepage": "https://github.com/sandfox/riemann-nodejs-client",
+  "bugs": "https://github.com/sandfox/riemann-nodejs-client/issues",
   "dependencies": {
     "protobufjs": "^2.0.5"
   },

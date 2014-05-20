@@ -1,4 +1,4 @@
-# [Riemann](http://aphyr.github.com/riemann/) Node.js Client (in pure JS)
+# [Riemann](https://aphyr.github.io/riemann/) Node.js Client (in pure JS)
 
 because you should be monitoring all of those [non-blocking buffet plates.](http://www.infinitelooper.com/?v=-sfZqL4Plxc&p=n#/242;267)
 
@@ -27,7 +27,7 @@ client.on('connect', function() {
 
 Just like [Riemann ruby client](https://github.com/aphyr/riemann-ruby-client), the client sends small events over UDP, by default. TCP is used for queries, and large events. There is no acknowledgement of UDP packets, but they are roughly an order of magnitude faster than TCP. We assume both TCP and UDP are listening to the same port.
 
-sending events is easy (see [list of valid event properties](http://aphyr.github.com/riemann/concepts.html)):
+sending events is easy (see [list of valid event properties](https://aphyr.github.io/riemann/concepts.html)):
 
 ```js
 client.send(client.Event({
@@ -69,7 +69,7 @@ If the `metric` field is supplied, it's contents are converted to a protobuf `fl
 Contributing is easy, just send a pull request, or make an issue / feature request. Please take a look at the project issues, to see how you can help. Here are some helpful tips:
 
 - install the developer dependencies using `npm install --dev`
-- please add tests. I'm using [Mocha](http://visionmedia.github.com/mocha/) as a test runner, you can run the tests using `npm test`
+- please add tests. I'm using [Mocha](https://visionmedia.github.io/mocha/) as a test runner, you can run the tests using `npm test`
 - please check your syntax with the included jshint configuration using `npm run-script lint`. It shouldn't report any errors.
 
 ## License

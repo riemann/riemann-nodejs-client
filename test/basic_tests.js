@@ -2,10 +2,11 @@ var assert = require('assert');
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 
+var riemann = require('../');
 
 var client;
 test("should connect to server", function(done) {
-  client = require('riemann').createClient();
+  client = riemann.createClient();
   assert(client instanceof EventEmitter);
   client.on('connect', done);
 });

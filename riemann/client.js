@@ -45,7 +45,10 @@ function _sendMessage(contents, transport) {
 function _defaultValues(payload) {
   if (!payload.host)  { payload.host = hostname; }
   if (!payload.time)  { payload.time = new Date().getTime()/1000; }
-  if (payload.metric) { payload.metricF = payload.metric; }
+  if (payload.metric) {
+    payload["metric_f"] = payload.metric;
+    delete payload.metric;
+  }
   return payload;
 }
 

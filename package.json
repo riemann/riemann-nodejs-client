@@ -1,26 +1,46 @@
 {
-  "name" : "riemann",
-  "version" : "0.4.0",
-  "description" : "node.js client for Riemann, supports hybrid UDP/TCP connections.",
+  "name": "riemannjs",
+  "version": "0.1.0",
+  "description": "Pure JS client for Riemann, supports hybrid UDP/TCP connections.",
   "author": {
-    "Derek Perez": "derek@derekperez.com",
-    "Julien Boeuf": "julien@boeuf.org"
+    "name": "James Butler",
+    "email": "james.butler@sandfox.co.uk"
   },
+  "contributors": [
+  {
+    "name": "Derek Perez",
+    "email": "derek@derekperez.com"
+  },
+  {
+    "name": "Julien Boeuf",
+    "email": "julien@boeuf.org"
+  }],
   "main": "riemann",
-  "engines": { "node": "> 0.6.0" },
+  "engines": {
+    "node": "> 0.6.0"
+  },
+  "keywords": [
+    "riemann",
+    "protocol",
+    "buffers",
+    "proto"
+  ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/perezd/riemann-nodejs-client.git"
+    "url": "git://github.com/sandfox/riemann-nodejs-client.git"
   },
-  "dependencies" :{
-    "protobuf" : "0.8.6"
+  "homepage": "https://github.com/sandfox/riemann-nodejs-client",
+  "bugs": "https://github.com/sandfox/riemann-nodejs-client/issues",
+  "dependencies": {
+    "protobufjs": "^2.0.5"
   },
-  "devDependencies" : {
-    "mocha" : "*",
+  "devDependencies": {
+    "mocha": "*",
     "jshint": "*"
   },
   "scripts": {
     "lint": "find . -name '*.js' -and -not -path './node_modules/*' | xargs ./node_modules/.bin/jshint --config ./.jshint",
     "test": "NODE_PATH=./ mocha --ui tdd --reporter list --timeout 2000 --slow 5000"
-  }
+  },
+  "license" : "MIT"
 }

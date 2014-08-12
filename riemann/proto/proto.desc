@@ -1,6 +1,6 @@
 
-…
-proto.proto"ì
+©
+proto.proto"Å
 State
 time (
 state (	
@@ -9,8 +9,7 @@
 description (	
 once (
 tags (	
-ttl (
-metric_f ("Ö
+ttl ("Œ
 Event
 time (
 state (	
@@ -18,7 +17,12 @@
 host (	
 description (	
 tags (	
-ttl (
+ttl (
+
+attributes	 (2
+.Attribute
+metric_sint64 (
+metric_d (
 metric_f ("
 Query
 string (	"g
@@ -28,5 +32,8 @@
 error (	
 states (2.State
 query (2.Query
-events (2.EventB
+events (2.Event"'
+	Attribute
+key (	
+value (	B
 com.aphyr.riemannBProto

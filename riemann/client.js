@@ -45,7 +45,9 @@ function _sendMessage(contents, transport) {
 function _defaultValues(payload) {
   if (!payload.host)  { payload.host = hostname; }
   if (!payload.time)  { payload.time = new Date().getTime()/1000; }
-  if (payload.metric) { payload.metricF = payload.metric; }
+  if (typeof payload.metric !== "undefined" && payload.metric !== null) {
+    payload.metricF = payload.metric;
+  }
   return payload;
 }
 

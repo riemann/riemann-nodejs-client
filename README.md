@@ -52,6 +52,18 @@ client.send(client.Event({
 }), client.tcp);
 ```
 
+You can also send events with custom attributes:
+
+```js
+client.send(client.Event({
+  service: 'buffet_plates',
+  metric: 150,
+  attributes: [{key: "sessionID", value: "000-001-165"}],
+  tags: ['nonblocking']
+}), client.tcp);
+```
+
+
 When you're done monitoring, disconnect:
 
 ```js

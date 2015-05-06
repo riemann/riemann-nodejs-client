@@ -47,7 +47,6 @@ function _defaultValues(payload) {
   if (!payload.time)  { payload.time = new Date().getTime()/1000; }
   if (typeof payload.metric !== "undefined" && payload.metric !== null) {
     payload.metric_f = payload.metric;
-    delete payload.metric;
   }
   return payload;
 }

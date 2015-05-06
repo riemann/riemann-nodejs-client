@@ -46,7 +46,7 @@ function _defaultValues(payload) {
   if (!payload.host)  { payload.host = hostname; }
   if (!payload.time)  { payload.time = new Date().getTime()/1000; }
   if (typeof payload.metric !== "undefined" && payload.metric !== null) {
-    payload.metricF = payload.metric;
+    payload.metric_f = payload.metric;
   }
   return payload;
 }

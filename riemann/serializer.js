@@ -1,18 +1,14 @@
 /* initialize our protobuf schema,
    and cache it in memory. */
-var riemannSchema;
-if (!riemannSchema) {
-  var Schema    = require('protobuf').Schema;
-  var readFile  = require('fs').readFileSync;
-  riemannSchema = new Schema(readFile(__dirname+'/proto/proto.desc'));
-}
+var protobuf = require('protobufjs');
+var buf = protobuf.loadProtoFile(__dirname + '/proto/proto.proto').build();
 
 function _serialize(type, value) {
-  return riemannSchema[type].serialize(value);
+  return new buf[type](value).encode().toBuffer();
 }
 
 function _deserialize(type, value) {
-  return riemannSchema[type].parse(value);
+  return buf[type].decode(value);
 }
 
 /* serialization support for all

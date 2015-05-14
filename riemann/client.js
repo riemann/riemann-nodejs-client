@@ -3,6 +3,16 @@ var events   = require('events');
 var inherits = require('util').inherits;
 var hostname = require('os').hostname();
 
+function TooManyMessagesError(outstandingMessages) {
+  Error.captureStackTrace(this, this.constructor);
+  this.name = this.constructor.name;
+  this.message = "Too many outstanding Riemann messages";
+  this.outstandingMessages = outstandingMessages;
+};
+ 
+inherits(TooManyMessagesError, Error);
+exports.TooManyMessagesError = TooManyMessagesError;
+
 /* riemann uses Google Protocol Buffers
    as its wire transfer protocol. */
 var Serializer = require('./serializer');
@@ -55,12 +65,14 @@ function _defaultValues(payload) {
 /* sets up a client connection to a Riemann server.
    options supports the following:
     - host (eg; my.riemannserver.biz)
-    - port (eg; 5555 -- default) */
+    - port (eg; 5555 -- default)
+    - maxOutstandingMessages (eg; 1000) */
 function Client(options, onConnect) {
   events.EventEmitter.call(this);
   if (!options) { options = {}; }
   options.host = options.host ? options.host : '127.0.0.1';
   options.port = options.port ? Number(options.port) : 5555;
+  this.maxOutstandingMessages = options.maxOutstandingMessages ? options.maxOutstandingMessages : 0;
 
   if (onConnect) { this.once('connect', onConnect); }
 
@@ -89,6 +101,7 @@ function Client(options, onConnect) {
   this.udp.socket.on('error', function(error) { self.emit('error', error); });
 
   this.tcp.onMessage(function(message) {
+    self.outstandingMessages--;
     self.emit('data', Serializer.deserializeMessage(message));
   });
 
@@ -132,6 +145,12 @@ Client.prototype.send = function(payload, transport) {
     assert(transport === this.tcp || transport === this.udp, 'invalid transport provided.');
   } else {
     transport = this.udp;
+  }
+  if (transport === this.tcp) {
+    this.outstandingMessages++;
+    if (this.maxOutstandingMessages && this.outstandingMessages > this.maxOutstandingMessages) {
+      throw new TooManyMessagesError(this.outstandingMessages);
+    }
   }
   payload.apply(transport);
 };

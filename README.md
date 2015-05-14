@@ -73,6 +73,30 @@ client.on('disconnect', function(){
 client.disconnect();
 ```
 
+## Backpressure
+
+Riemann over TCP acknowledges every message, thus providing an effective way to prevent overloading the system. The Riemann client has a built-in device to prevent too many messages from being sent without acknowledgement at once. Just specify a `maxOutstandingMessages` in `createClient`, and if the number of in-flight messages exceeds that number, `client.send` will throw a `TooManyMessagesError`. Be sure to use the TCP transport, as this is the only way the client receives message acknowledgements.
+
+You can also read `client.outstandingMessages` if you want to see the number of in-flight messages at any given time.
+
+```js
+var client = require('riemann').createClient({
+  host: 'some.riemann.server',
+  port: 5555,
+  maxOutstandingMessages: 1000
+});
+
+try {
+  client.send(client.Event({
+    service: 'buffet_plates',
+    metric:  252.2,
+    tags:    ['nonblocking']
+  }), client.tcp);
+} catch (e) {
+  console.log('Riemann is overloaded!');
+}
+```
+
 
 ## Contributing
 

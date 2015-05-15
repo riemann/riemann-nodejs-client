@@ -101,7 +101,7 @@ function Client(options, onConnect) {
   this.udp.socket.on('error', function(error) { self.emit('error', error); });
 
   this.tcp.onMessage(function(message) {
-    self.outstandingMessages--;
+    if (self.outstandingMessages > 0) { self.outstandingMessages--; }
     self.emit('data', Serializer.deserializeMessage(message));
   });
 
@@ -147,10 +147,10 @@ Client.prototype.send = function(payload, transport) {
     transport = this.udp;
   }
   if (transport === this.tcp) {
-    this.outstandingMessages++;
     if (this.maxOutstandingMessages && this.outstandingMessages > this.maxOutstandingMessages) {
       throw new TooManyMessagesError(this.outstandingMessages);
     }
+    this.outstandingMessages++;
   }
   payload.apply(transport);
 };

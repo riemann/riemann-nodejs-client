@@ -1,6 +1,6 @@
 {
   "name": "riemann",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "node.js client for Riemann, supports hybrid UDP/TCP connections.",
   "author": {
     "Derek Perez": "derek@derekperez.com",

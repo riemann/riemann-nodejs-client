@@ -67,7 +67,8 @@ test("should send an event with custom attributes as tcp", function(done) {
     client.send(client.Event({
       service : 'hello_tcp_'+i,
       attributes: [{key: "session", value: "123-456-789"},
-                   {key: "metric_type", value: "random_number"}],
+                   {key: "metric_type", value: "random_number"}
+                   ],
       metric  : Math.random(100)*100,
       tags    : ['bar'] }), client.tcp);
   }
@@ -122,3 +123,22 @@ test("should disconnect from server", function(done) {
   client.disconnect();
 });
 
+suite("serialization", function() {
+  var serializer = require('../riemann/serializer');
+  var eventObj   = {
+    service    : "hello_tcp_123",
+    ttl        : "" + Math.random(100)*100,    // should be a float
+    attributes : [ {key: "foo", value: 123} ], // value should be a string
+  };
+
+  test("should not throw for type mismatch", function() {
+    serializer.serializeEvent(eventObj);
+  });
+
+  test("should cast to proper type", function() {
+    var event = serializer.deserializeEvent(serializer.serializeEvent(eventObj));
+    assert(typeof event.ttl === 'number');
+    assert(typeof event.attributes[0].value === 'string');
+  });
+
+});

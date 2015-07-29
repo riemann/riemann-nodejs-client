@@ -2,17 +2,17 @@
    and cache it in memory. */
 var riemannSchema;
 if (!riemannSchema) {
-  var protobuf  = require('protocol-buffers');
+  var Schema    = require('protobuf').Schema;
   var readFile  = require('fs').readFileSync;
-  riemannSchema = protobuf(readFile(__dirname+'/proto/proto.proto'));
+  riemannSchema = new Schema(readFile(__dirname+'/proto/proto.desc'));
 }
 
 function _serialize(type, value) {
-  return riemannSchema[type].encode(value);
+  return riemannSchema[type].serialize(value);
 }
 
 function _deserialize(type, value) {
-  return riemannSchema[type].decode(value);
+  return riemannSchema[type].parse(value);
 }
 
 /* serialization support for all

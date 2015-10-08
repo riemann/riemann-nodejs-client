@@ -2,12 +2,36 @@
 
 because you should be monitoring all of those [non-blocking buffet plates.](http://www.infinitelooper.com/?v=-sfZqL4Plxc&p=n#/242;267)
 
+## Prerequisites
+
+Riemann uses [Google Protocol Buffers](https://github.com/google/protobuf),
+so please make sure it's installed beforehand.
+
+### Ubuntu/Debian via apt
+
+```sh
+apt-get install libprotobuf-dev
+```
+
+### RHEL/Centos via yum
+
+```sh
+yum install protobuf-devel
+```
+
+### Mac OS via homebrew
+
+```sh
+brew install protobuf
+```
+
+### Windows
+
+https://github.com/fuwaneko/node-protobuf#windows
 
 ## Installation
 
-Riemann uses [Google Protocol Buffers](http://code.google.com/p/protobuf/), so make sure thats installed beforehand, and available on your `PATH`.
-
-```
+```sh
 npm install riemann
 ```
 
@@ -16,12 +40,12 @@ npm install riemann
 first things first, we'll want to establish a new client:
 
 ```js
-var client = require('riemann').createClient({ 
-  host: 'some.riemann.server', 
-  port: 5555 
+var client = require('riemann').createClient({
+  host: 'some.riemann.server',
+  port: 5555
 });
 
-client.on('connect', function() { 
+client.on('connect', function() {
   console.log('connected!');
 });
 ```
@@ -41,7 +65,7 @@ client.send(client.Event({
 If you wanted to send that message over TCP and receive an acknowledgement, you can specify the transport, explicitly:
 
 ```js
-client.on('data', function(ack) { 
+client.on('data', function(ack) {
   console.log('got it!');
 });
 
@@ -67,7 +91,7 @@ client.send(client.Event({
 When you're done monitoring, disconnect:
 
 ```js
-client.on('disconnect', function(){ 
+client.on('disconnect', function(){
   console.log('disconnected!');
 });
 client.disconnect();

@@ -20,6 +20,26 @@ test("should fire error event", function(done) {
   });
 });
 
+test("should convert from metric to metric_f", function(done) {
+  var value = Math.random(100)*100;
+  // Generate 'message' with 'metric' attribute
+  client.Event({
+    metric: value
+  }).apply({
+    send: function(message) {
+      // Generate 'message_f' with 'metric_f' attribute
+      client.Event({
+        metric_f: value
+      }).apply({
+        send: function(message_f) {
+          // Verify message lengths match
+          assert.strictEqual(message.length, message_f.length);
+          done();
+        }
+      });
+    }
+  });
+});
 
 test("should send an event as udp", function(done) {
   client.send(client.Event({

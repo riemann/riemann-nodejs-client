@@ -103,5 +103,6 @@ client.disconnect();
 Contributing is easy, just send me a pull request. Please take a look at the project issues, to see how you can help. Here are some helpful tips:
 
 - install the developer dependencies using `npm install --dev`
+- install Riemann using the [quickstart instructions](http://riemann.io/quickstart.html). A running Riemann server is required to run the tests.
 - please add tests. I'm using [Mocha](http://visionmedia.github.com/mocha/) as a test runner, you can run the tests using `npm test`
 - please check your syntax with the included jshint configuration using `npm run-script lint`. It shouldn't report any errors.

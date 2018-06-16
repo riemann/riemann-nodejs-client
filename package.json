@@ -18,7 +18,7 @@
     "url": "git://github.com/perezd/riemann-nodejs-client.git"
   },
   "dependencies": {
-    "node-protobuf": "^1.2.9"
+    "node-protobuf": "^1.4.3"
   },
   "devDependencies": {
     "mocha": "*",

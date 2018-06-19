@@ -12,7 +12,19 @@ function udpSocket(options) {
 
 udpSocket.prototype.send = function(payload) {
   assert(Buffer.isBuffer(payload));
-  this.socket.send(payload, 0, payload.length, this.options.port, this.options.host);
+
+  var self = this;
+
+  function callback (err) {
+    if (err) {
+      self.socket.emit('error',err);
+    } else {
+      self.socket.emit('sent');
+    }
+  }
+
+  // callback usage lets us be aware not only of erroneous but successfull invocations as well
+  this.socket.send(payload, 0, payload.length, this.options.port, this.options.host, callback);
 };
 
 

@@ -85,6 +85,9 @@ function Client(options, onConnect) {
   // proxy the TCP connect event.
   this.tcp.socket.on('connect', function() { self.emit('connect'); });
 
+  // proxy the UDP sent event.
+  this.udp.socket.on('sent', function() { self.emit('sent'); });
+
   // proxy errors from TCP and UDP
   this.tcp.socket.on('error', function(error) { self.emit('error', error); });
   this.udp.socket.on('error', function(error) { self.emit('error', error); });

@@ -11,14 +11,15 @@
   ],
   "main": "riemann",
   "engines": {
-    "node": "> 0.6.0"
+    "node": ">= 0.12"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/perezd/riemann-nodejs-client.git"
   },
   "dependencies": {
-    "node-protobuf": "^1.4.3"
+    "node-protobuf": "^1.4.3",
+    "event-to-promise": "^0.8.0"
   },
   "devDependencies": {
     "mocha": "*",

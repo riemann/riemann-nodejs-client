@@ -2,10 +2,11 @@ var assert = require('assert');
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 
+var host = (process.env.RIEMANN_HOST ? process.env.RIEMANN_HOST : '127.0.0.1');
 
 var client;
 test("should connect to server", function(done) {
-  client = require('riemann').createClient();
+  client = require('riemann').createClient({host: host});
   assert(client instanceof EventEmitter);
   client.on('connect', done);
 });
@@ -13,7 +14,7 @@ test("should connect to server", function(done) {
 
 var server_down;
 test("should fire error event", function(done) {
-  server_down = require('riemann').createClient({port: 64500});
+  server_down = require('riemann').createClient({host: host, port: 64500});
   server_down.on('error', function(e) {
     assert(e instanceof Error);
     done();

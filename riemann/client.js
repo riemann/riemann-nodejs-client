@@ -37,7 +37,10 @@ function _sendMessage(contents, transport) {
     } else {
       this.send(message);
     }
-    return e2p.multi(self, [ 'data', 'sent' ]).then(([ param, e ]) => param);
+
+    if (self.returnPromise) {
+      return e2p.multi(self, [ 'data', 'sent' ]).then(([ param, e ]) => param);
+    }
   };
 }
 
@@ -71,6 +74,7 @@ function Client(options, onConnect) {
 
   this.tcp = new Socket.tcpSocket(options);
   this.udp = new Socket.udpSocket(options);
+  this.returnPromise = options.returnPromise;
 
   // monitor both close events, and proxy
   // it as a single disconnect event.
@@ -147,14 +151,13 @@ Client.prototype.send = function(payload, transport) {
 Client.prototype.disconnect = function(onDisconnect) {
   if (this.tcp) { this.tcp.socket.end(); }
   if (this.udp) { this.udp.socket.close(); }
-
-  if (onDisconnect) {
-    this.once('disconnect', onDisconnect);
-  }
-  else {
+  if (this.returnPromise) {
     const tcpEnded = e2p(this.tcp.socket, 'close');
     const udpClosed = e2p(this.udp.socket, 'close');
     return Promise.all([ tcpEnded, udpClosed ])
       .then(() => undefined); // discard resolution parameters if any
+  }
+  else if (onDisconnect) {
+    this.once('disconnect', onDisconnect);
   }
 };

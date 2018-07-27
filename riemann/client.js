@@ -2,6 +2,7 @@ var assert   = require('assert');
 var events   = require('events');
 var inherits = require('util').inherits;
 var hostname = require('os').hostname();
+const e2p    = require('event-to-promise');
 
 /* riemann uses Google Protocol Buffers
    as its wire transfer protocol. */
@@ -36,6 +37,7 @@ function _sendMessage(contents, transport) {
     } else {
       this.send(message);
     }
+    return e2p.multi(self, [ 'data', 'sent' ]).then(([ param, e ]) => param);
   };
 }
 
@@ -137,13 +139,22 @@ Client.prototype.send = function(payload, transport) {
   } else {
     transport = this.udp;
   }
-  payload.apply(transport);
+  return payload.apply(transport);
 };
 
 
 /* disconnects our client */
 Client.prototype.disconnect = function(onDisconnect) {
-  if (onDisconnect) { this.once('disconnect', onDisconnect); }
   if (this.tcp) { this.tcp.socket.end(); }
   if (this.udp) { this.udp.socket.close(); }
+
+  if (onDisconnect) {
+    this.once('disconnect', onDisconnect);
+  }
+  else {
+    const tcpEnded = e2p(this.tcp.socket, 'close');
+    const udpClosed = e2p(this.udp.socket, 'close');
+    return Promise.all([ tcpEnded, udpClosed ])
+      .then(() => undefined); // discard resolution parameters if any
+  }
 };

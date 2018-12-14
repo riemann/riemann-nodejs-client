@@ -18,12 +18,13 @@
     "url": "git://github.com/perezd/riemann-nodejs-client.git"
   },
   "dependencies": {
+    "event-to-promise": "^0.8.0",
     "node-protobuf": "^1.4.3",
-    "event-to-promise": "^0.8.0"
+    "protobufjs": "^6.8.8"
   },
   "devDependencies": {
-    "mocha": "*",
-    "jshint": "*"
+    "jshint": "*",
+    "mocha": "*"
   },
   "scripts": {
     "lint": "find . -name '*.js' -and -not -path './node_modules/*' | xargs ./node_modules/.bin/jshint --config ./.jshint",

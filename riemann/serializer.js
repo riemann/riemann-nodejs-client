@@ -1,16 +1,26 @@
 /* initialize our protobuf schema,
    and cache it in memory. */
-var riemannSchema;
+var riemannSchema
 if (!riemannSchema) {
-  var protobuf = require('protobufjs')
+  schemaLoad()
+}
 
-  protobuf.load(__dirname + '/proto/proto.proto', function (err, root) {
-    if (err) throw err
+function schemaLoad () {
+  return new Promise((resolve, reject) => {
+    if (riemannSchema) resolve()
 
-    // Pull the message type out.
-    riemannSchema = root
+    var protobuf = require('protobufjs')
+
+    protobuf.load(__dirname + '/proto/proto.proto', function (err, root) {
+      if (err) reject(err)
+
+      // Pull the message type out.
+      riemannSchema = root
+      resolve()
+    })
   })
 }
+exports.schemaLoad = schemaLoad
 
 function _serialize (type, value) {
   var messageType = riemannSchema.lookupType(type)

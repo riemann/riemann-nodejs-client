@@ -2,36 +2,15 @@
 
 because you should be monitoring all of those [non-blocking buffet plates.](http://www.infinitelooper.com/?v=-sfZqL4Plxc&p=n#/242;267)
 
-## Prerequisites
-
-Riemann uses [Google Protocol Buffers](https://github.com/google/protobuf),
-so please make sure it's installed beforehand.
-
-### Ubuntu/Debian via apt
-
-```sh
-apt-get install libprotobuf-dev
-```
-
-### RHEL/Centos via yum
-
-```sh
-yum install protobuf-devel
-```
-
-### Mac OS via homebrew
-
-```sh
-brew install protobuf
-```
-
-### Windows
-
-https://github.com/fuwaneko/node-protobuf#windows
-
 ## Installation
 
 ```sh
+yarn add riemann
+```
+
+or:
+
+```
 npm install riemann
 ```
 
@@ -102,7 +81,9 @@ client.disconnect();
 
 Contributing is easy, just send me a pull request. Please take a look at the project issues, to see how you can help. Here are some helpful tips:
 
-- install the dependencies using `npm install`.
+- install the dependencies using `yarn` or `npm install`.
 - install Riemann using the [quickstart instructions](http://riemann.io/quickstart.html). A running Riemann server is required to run the tests.
-- please add tests. I'm using [Mocha](http://visionmedia.github.com/mocha/) as a test runner, you can run the tests using `npm test`
+- please add tests. I'm using
+  [Mocha](http://visionmedia.github.com/mocha/) as a test runner, you
+  can run the tests using `yarn test` or `npm test`
 - please check your syntax with the included jshint configuration using `npm run-script lint`. It shouldn't report any errors.

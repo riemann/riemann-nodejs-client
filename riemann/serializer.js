@@ -2,7 +2,6 @@
    and cache it in memory. */
 var riemannSchema;
 if (!riemannSchema) {
-  // var Schema    = require('node-protobuf');
   var protobuf = require('protobufjs')
 
   protobuf.load(__dirname + '/proto/proto.proto', function (err, root) {
@@ -11,25 +10,25 @@ if (!riemannSchema) {
     // Pull the message type out.
     riemannSchema = root
   })
-  // var readFile  = require('fs').readFileSync;
-  // riemannSchema = new Schema(readFile(__dirname+'/proto/proto.desc'));
 }
 
 function _serialize (type, value) {
   var messageType = riemannSchema.lookupType(type)
-  var isValid = messageType.verify(value)
 
-  if (false === isValid) {
-    throw Error('Invalid serialization.')
+  // https://www.npmjs.com/package/protobufjs#valid-message
+  var errorString = messageType.verify(value)
+  var message
+
+  // Using create is faster, so only fall back to fromObject in worst case.
+  if (typeof errorString === 'string') {
+    message = messageType.fromObject(value)
+  } else {
+    message = messageType.create(value)
   }
 
-  var message = messageType.create(value)
   var buffer = messageType.encode(message).finish()
 
   return buffer
-  // return buffer.toString('binary')
-  // return riemannSchema.lookupType(type).
-  // return riemannSchema.serialize(value, type);
 }
 
 function _deserialize (type, value) {
@@ -38,7 +37,6 @@ function _deserialize (type, value) {
   var message = messageType.decode(buffer)
 
   return message
-  // return riemannSchema.parse(value, type);
 }
 
 /* serialization support for all

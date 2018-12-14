@@ -1,13 +1,14 @@
 {
   "name": "riemann",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "node.js client for Riemann, supports hybrid UDP/TCP connections.",
   "author": {
     "Derek Perez": "derek@derekperez.com",
     "Julien Boeuf": "julien@boeuf.org"
   },
   "contributors": [
-    "Lovell Fuller <npm@lovell.info>"
+    "Lovell Fuller <npm@lovell.info>",
+    "Matthew Carter <m@ahungry.com>"
   ],
   "main": "riemann",
   "engines": {
@@ -19,8 +20,7 @@
   },
   "dependencies": {
     "event-to-promise": "^0.8.0",
-    "node-protobuf": "^1.4.3",
-    "protobufjs": "^6.8.8"
+    "protobufjs": "6.8.8"
   },
   "devDependencies": {
     "jshint": "*",

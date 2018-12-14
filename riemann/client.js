@@ -1,8 +1,8 @@
-var assert   = require('assert');
-var events   = require('events');
+var assert = require('assert');
+var events = require('events');
 var inherits = require('util').inherits;
 var hostname = require('os').hostname();
-const e2p    = require('event-to-promise');
+const e2p = require('event-to-promise');
 
 /* riemann uses Google Protocol Buffers
    as its wire transfer protocol. */
@@ -16,9 +16,9 @@ var Socket = require('./socket');
 
 
 var MAX_UDP_BUFFER_SIZE = 16384;
-function _sendMessage(contents, transport) {
+function _sendMessage (contents, transport) {
   var self = this;
-  return function() {
+  return function () {
     // all events are wrapped in the Message type.
     var message = Serializer.serializeMessage(contents);
 
@@ -27,19 +27,19 @@ function _sendMessage(contents, transport) {
     if (transport) {
       transport.send(message);
 
-    // if we're sending a message that is larger than the max buffer
-    // size of UDP, we should switch over to TCP.
+      // if we're sending a message that is larger than the max buffer
+      // size of UDP, we should switch over to TCP.
     } else if (message.length >= MAX_UDP_BUFFER_SIZE) {
       self.tcp.send(message);
 
-    // utilize whatever transport this message is applied to,
-    // by caller.
+      // utilize whatever transport this message is applied to,
+      // by caller.
     } else {
       this.send(message);
     }
 
     if (self.returnPromise) {
-      return e2p.multi(self, [ 'data', 'sent' ]).then(([ param, e ]) => param);
+      return e2p.multi(self, ['data', 'sent']).then(([param, e]) => param);
     }
   };
 }
@@ -47,9 +47,9 @@ function _sendMessage(contents, transport) {
 
 /* some friendly defaults for event,
    in case they went missing. */
-function _defaultValues(payload) {
-  if (!payload.host)  { payload.host = hostname; }
-  if (!payload.time)  { payload.time = new Date().getTime()/1000; }
+function _defaultValues (payload) {
+  if (!payload.host) { payload.host = hostname; }
+  if (!payload.time) { payload.time = Math.round(new Date().getTime() / 1000); }
   if (typeof payload.metric !== "undefined" && payload.metric !== null) {
     payload.metric_f = payload.metric;
     delete payload.metric;
@@ -62,7 +62,7 @@ function _defaultValues(payload) {
    options supports the following:
     - host (eg; my.riemannserver.biz)
     - port (eg; 5555 -- default) */
-function Client(options, onConnect) {
+function Client (options, onConnect) {
   events.EventEmitter.call(this);
   if (!options) { options = {}; }
   options.host = options.host ? options.host : '127.0.0.1';
@@ -79,9 +79,9 @@ function Client(options, onConnect) {
   // monitor both close events, and proxy
   // it as a single disconnect event.
   var _closeAcks = 0;
-  var monitorClose = function() {
+  var monitorClose = function () {
     ++_closeAcks;
-    return function() {
+    return function () {
       if (--_closeAcks === 0) { self.emit('disconnect'); }
     };
   };
@@ -89,16 +89,16 @@ function Client(options, onConnect) {
   this.udp.socket.on('close', monitorClose());
 
   // proxy the TCP connect event.
-  this.tcp.socket.on('connect', function() { self.emit('connect'); });
+  this.tcp.socket.on('connect', function () { self.emit('connect'); });
 
   // proxy the UDP sent event.
-  this.udp.socket.on('sent', function() { self.emit('sent'); });
+  this.udp.socket.on('sent', function () { self.emit('sent'); });
 
   // proxy errors from TCP and UDP
-  this.tcp.socket.on('error', function(error) { self.emit('error', error); });
-  this.udp.socket.on('error', function(error) { self.emit('error', error); });
+  this.tcp.socket.on('error', function (error) { self.emit('error', error); });
+  this.udp.socket.on('error', function (error) { self.emit('error', error); });
 
-  this.tcp.onMessage(function(message) {
+  this.tcp.onMessage(function (message) {
     self.emit('data', Serializer.deserializeMessage(message));
   });
 
@@ -111,7 +111,7 @@ exports.Client = Client;
 /* Submits an Event to the server.
    takes a key/value object of valid
    Event protocol buffer values. */
-Client.prototype.Event = function(event) {
+Client.prototype.Event = function (event) {
   event = _defaultValues(event);
   return _sendMessage.call(this, { events: [event] });
 };
@@ -120,7 +120,7 @@ Client.prototype.Event = function(event) {
 /* Submits a State to the server.
    takes a key/value object of valid
    State protocol buffer values. */
-Client.prototype.State = function(state) {
+Client.prototype.State = function (state) {
   state = _defaultValues(state);
   return _sendMessage.call(this, { states: [state] });
 };
@@ -129,7 +129,7 @@ Client.prototype.State = function(state) {
 /* Submits a Query to the server.
   takes a key/value object of valid
   Query protocol buffer values. */
-Client.prototype.Query = function(query) {
+Client.prototype.Query = function (query) {
   return _sendMessage.call(this, { query: query }, this.tcp);
 };
 
@@ -137,7 +137,7 @@ Client.prototype.Query = function(query) {
 /* sends a payload to Riemann. Exepects any valid payload type
    (eg: Event, State, Query...) and an optional (requested, not guaranteed)
    transport (TCP or UDP). */
-Client.prototype.send = function(payload, transport) {
+Client.prototype.send = function (payload, transport) {
   if (transport) {
     assert(transport === this.tcp || transport === this.udp, 'invalid transport provided.');
   } else {
@@ -148,13 +148,13 @@ Client.prototype.send = function(payload, transport) {
 
 
 /* disconnects our client */
-Client.prototype.disconnect = function(onDisconnect) {
+Client.prototype.disconnect = function (onDisconnect) {
   if (this.tcp) { this.tcp.socket.end(); }
   if (this.udp) { this.udp.socket.close(); }
   if (this.returnPromise) {
     const tcpEnded = e2p(this.tcp.socket, 'close');
     const udpClosed = e2p(this.udp.socket, 'close');
-    return Promise.all([ tcpEnded, udpClosed ])
+    return Promise.all([tcpEnded, udpClosed])
       .then(() => undefined); // discard resolution parameters if any
   }
   else if (onDisconnect) {

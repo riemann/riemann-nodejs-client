@@ -22,7 +22,7 @@ function _serialize (type, value) {
   // Using create is faster, so only fall back to fromObject in worst case.
   if (typeof errorString === 'string') {
     message = messageType.fromObject(value)
-  } else {
+  } else { // It will be null here.
     message = messageType.create(value)
   }
 

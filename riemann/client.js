@@ -72,6 +72,7 @@ function Client (options, onConnect) {
   if (onConnect) { this.once('connect', onConnect); }
 
   var self = this;
+  self.setMaxListeners(12)
 
   this.tcp = new Socket.tcpSocket(options);
   this.udp = new Socket.udpSocket(options);

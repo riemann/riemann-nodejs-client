@@ -7,12 +7,16 @@ if (!riemannSchema) {
 
 function schemaLoad () {
   return new Promise((resolve, reject) => {
-    if (riemannSchema) resolve()
+    if (riemannSchema) {
+      resolve()
+    }
 
     var protobuf = require('protobufjs')
 
     protobuf.load(__dirname + '/proto/proto.proto', function (err, root) {
-      if (err) reject(err)
+      if (err) {
+        reject(err)
+      }
 
       // Pull the message type out.
       riemannSchema = root

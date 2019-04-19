@@ -15,6 +15,22 @@ var Serializer = require('./serializer');
 var Socket = require('./socket');
 
 
+/* allows to disconnect all those already
+   unnecessary 'data', 'sent' and 'error' handlers. */
+function _e2p(emitter, event, options) {
+  let p = e2p(emitter, event, options);
+
+  return p.then(() => {
+    p.cancel();
+    return p;
+  })
+  .catch(err => {
+    p.cancel();
+    throw err;
+  });
+}
+
+
 var MAX_UDP_BUFFER_SIZE = 16384;
 function _sendMessage(contents, transport) {
   var self = this;
@@ -41,7 +57,7 @@ function _sendMessage(contents, transport) {
 
     try {
       if (self.returnPromise) {
-        return e2p(self, t.promiseResolutionEvent);
+        return _e2p(self, t.promiseResolutionEvent);
       }
     }
     finally {
@@ -160,7 +176,7 @@ Client.prototype.send = function(payload, transport) {
 Client.prototype.disconnect = function(onDisconnect) {
   try {
     if (this.returnPromise) {
-      return e2p(this, 'disconnect');
+      return _e2p(this, 'disconnect');
     }
   }
   finally {

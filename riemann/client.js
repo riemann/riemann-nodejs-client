@@ -15,31 +15,53 @@ var Serializer = require('./serializer');
 var Socket = require('./socket');
 
 
+/* allows to disconnect all those already
+   unnecessary 'data', 'sent' and 'error' handlers. */
+function _e2p(emitter, event, options) {
+  let p = e2p(emitter, event, options);
+
+  return p.then(() => {
+    p.cancel();
+    return p;
+  })
+  .catch(err => {
+    p.cancel();
+    throw err;
+  });
+}
+
+
 var MAX_UDP_BUFFER_SIZE = 16384;
 function _sendMessage(contents, transport) {
   var self = this;
   return function() {
     // all events are wrapped in the Message type.
     var message = Serializer.serializeMessage(contents);
+    let t;
 
     // if an explict transport is specified via code,
     // at definition of this message, we trust it.
     if (transport) {
-      transport.send(message);
+      t = transport;
 
     // if we're sending a message that is larger than the max buffer
     // size of UDP, we should switch over to TCP.
     } else if (message.length >= MAX_UDP_BUFFER_SIZE) {
-      self.tcp.send(message);
+      t = self.tcp;
 
     // utilize whatever transport this message is applied to,
     // by caller.
     } else {
-      this.send(message);
+      t = this;
     }
 
-    if (self.returnPromise) {
-      return e2p.multi(self, [ 'data', 'sent' ]).then(([ param, e ]) => param);
+    try {
+      if (self.returnPromise) {
+        return _e2p(self, t.promiseResolutionEvent);
+      }
+    }
+    finally {
+      t.send(message);
     }
   };
 }
@@ -74,6 +96,8 @@ function Client(options, onConnect) {
 
   this.tcp = new Socket.tcpSocket(options);
   this.udp = new Socket.udpSocket(options);
+  this.tcp.promiseResolutionEvent = 'data';
+  this.udp.promiseResolutionEvent = 'sent';
   this.returnPromise = options.returnPromise;
 
   // monitor both close events, and proxy
@@ -143,21 +167,23 @@ Client.prototype.send = function(payload, transport) {
   } else {
     transport = this.udp;
   }
+
   return payload.apply(transport);
 };
 
 
 /* disconnects our client */
 Client.prototype.disconnect = function(onDisconnect) {
-  if (this.tcp) { this.tcp.socket.end(); }
-  if (this.udp) { this.udp.socket.close(); }
-  if (this.returnPromise) {
-    const tcpEnded = e2p(this.tcp.socket, 'close');
-    const udpClosed = e2p(this.udp.socket, 'close');
-    return Promise.all([ tcpEnded, udpClosed ])
-      .then(() => undefined); // discard resolution parameters if any
+  try {
+    if (this.returnPromise) {
+      return _e2p(this, 'disconnect');
+    }
   }
-  else if (onDisconnect) {
-    this.once('disconnect', onDisconnect);
+  finally {
+    if (this.tcp) { this.tcp.socket.end(); }
+    if (this.udp) { this.udp.socket.close(); }
+    if (onDisconnect) {
+      this.once('disconnect', onDisconnect);
+    }
   }
 };

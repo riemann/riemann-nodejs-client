@@ -50,6 +50,17 @@ client.on('connect', function() {
 });
 ```
 
+Promise-based workflow is supported, too. Just pass 'returnPromise' flag set to _true_.
+All the Client's methods will return promises in that case.
+
+```js
+var client = await require('riemann').createClient({
+  host: 'some.riemann.server',
+  port: 5555,
+  returnPromise: true
+});
+```
+
 Just like [Riemann ruby client](https://github.com/aphyr/riemann-ruby-client), the client sends small events over UDP, by default. TCP is used for queries, and large events. There is no acknowledgement of UDP packets, but they are roughly an order of magnitude faster than TCP. We assume both TCP and UDP are listening to the same port.
 
 sending events is easy (see [list of valid event properties](http://aphyr.github.com/riemann/concepts.html)):
@@ -70,6 +81,14 @@ client.on('data', function(ack) {
 });
 
 client.send(client.Event({
+  service: 'buffet_plates',
+  metric:  252.2,
+  tags:    ['nonblocking']
+}), client.tcp);
+
+// ... or via promises
+
+var data = await client.send(client.Event({
   service: 'buffet_plates',
   metric:  252.2,
   tags:    ['nonblocking']
@@ -95,8 +114,11 @@ client.on('disconnect', function(){
   console.log('disconnected!');
 });
 client.disconnect();
-```
 
+// ... or just
+
+await client.disconnect();
+```
 
 ## Contributing
 

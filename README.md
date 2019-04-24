@@ -2,33 +2,6 @@
 
 because you should be monitoring all of those [non-blocking buffet plates.](http://www.infinitelooper.com/?v=-sfZqL4Plxc&p=n#/242;267)
 
-## Prerequisites
-
-Riemann uses [Google Protocol Buffers](https://github.com/google/protobuf),
-so please make sure it's installed beforehand.
-
-### Ubuntu/Debian via apt
-
-```sh
-apt-get install libprotobuf-dev
-```
-
-### RHEL/Centos via yum
-
-```sh
-yum install protobuf-devel
-```
-
-### Mac OS via homebrew
-
-```sh
-brew install protobuf
-```
-
-### Windows
-
-https://github.com/fuwaneko/node-protobuf#windows
-
 ## Installation
 
 ```sh

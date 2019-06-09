@@ -83,7 +83,9 @@ function Client (options, onConnect) {
   var _closeAcks = 0;
   var monitorClose = function () {
     ++_closeAcks;
+    console.log('Closed...', { _closeAcks })
     return function () {
+      console.log({ _closeAcks })
       if (--_closeAcks === 0) { self.emit('disconnect'); }
     };
   };
@@ -151,6 +153,7 @@ Client.prototype.send = function (payload, transport) {
 
 /* disconnects our client */
 Client.prototype.disconnect = function (onDisconnect) {
+  console.log('disconnect...')
   if (this.tcp) { this.tcp.socket.end(); }
   if (this.udp) { this.udp.socket.close(); }
   if (this.returnPromise) {

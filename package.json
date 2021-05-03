@@ -15,15 +15,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/perezd/riemann-nodejs-client.git"
+    "url": "git://github.com/riemann/riemann-nodejs-client.git"
   },
   "dependencies": {
-    "protobufjs": "6.8.8",
-    "event-to-promise": "^0.8.0"
+    "event-to-promise": "^0.8.0",
+    "protobufjs": "6.11.2"
   },
   "devDependencies": {
-    "mocha": "*",
-    "jshint": "*"
+    "jshint": "*",
+    "mocha": "*"
   },
   "scripts": {
     "lint": "find . -name '*.js' -and -not -path './node_modules/*' | xargs ./node_modules/.bin/jshint --config ./.jshint",

@@ -2,6 +2,7 @@
   "name": "riemann",
   "version": "2.0.0",
   "description": "node.js client for Riemann, supports hybrid UDP/TCP connections.",
+  "license": "MIT",
   "author": {
     "Derek Perez": "derek@derekperez.com",
     "Julien Boeuf": "julien@boeuf.org"

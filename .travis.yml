@@ -15,6 +15,7 @@ before_install:
   - curl -LO https://github.com/riemann/riemann/releases/download/0.3.6/riemann_0.3.6_all.deb
   - sudo dpkg --install riemann_0.3.6_all.deb
   - sudo service riemann start
+  - until curl -s localhost:5555; do true; done > /dev/null
 script:
   - npm run lint
   - npm test

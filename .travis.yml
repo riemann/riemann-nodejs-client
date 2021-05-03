@@ -13,8 +13,8 @@ addons:
     - libprotobuf-dev
 before_install:
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
-  - curl -O https://aphyr.com/riemann/riemann_0.2.10_all.deb
-  - sudo dpkg --install riemann_0.2.10_all.deb
+  - curl -O https://aphyr.com/riemann/riemann_0.3.6_all.deb
+  - sudo dpkg --install riemann_0.3.6_all.deb
   - sudo service riemann start
 script:
   - npm run lint

@@ -1,32 +1,8 @@
 var protobuf = require('protobufjs');
 var path = require('path');
 
-/* initialize our protobuf schema,
-   and cache it in memory. */
-var riemannSchema;
-if (!riemannSchema) {
-  schemaLoad();
-}
-
-function schemaLoad() {
-  return new Promise((resolve, reject) => {
-    if (riemannSchema) {
-      resolve();
-    }
-
-    protobuf.load(path.join(__dirname, '/proto/proto.proto'), (err, root) => {
-      if (err) {
-        reject(err);
-      }
-
-      // Pull the message type out.
-      riemannSchema = root;
-      resolve();
-    });
-  });
-}
-
-exports.schemaLoad = schemaLoad;
+/* initialize our protobuf schema, and cache it in memory. */
+var riemannSchema = protobuf.loadSync(path.join(__dirname, '/proto/proto.proto'));
 
 function _serialize(type, value) {
   var messageType = riemannSchema.lookupType(type);

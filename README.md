@@ -1,5 +1,7 @@
 # [Riemann](http://aphyr.github.com/riemann/) Node.js Client
 
+[![Build Status](https://travis-ci.com/riemann/riemann-nodejs-client.svg?branch=master)](https://travis-ci.com/riemann/riemann-nodejs-client)
+
 because you should be monitoring all of those [non-blocking buffet plates.](http://www.infinitelooper.com/?v=-sfZqL4Plxc&p=n#/242;267)
 
 ## Installation

@@ -26,7 +26,7 @@
     "mocha": "*"
   },
   "scripts": {
-    "lint": "find . -name '*.js' -and -not -path './node_modules/*' | xargs ./node_modules/.bin/jshint --config ./.jshint",
+    "lint": "find . -name '*.js' -and -not -path './node_modules/*' | xargs ./node_modules/.bin/jshint --config ./.jshintrc",
     "test": "NODE_PATH=./ mocha --ui tdd --reporter list --timeout 2000 --slow 5000"
   }
 }

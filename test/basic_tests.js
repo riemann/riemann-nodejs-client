@@ -1,6 +1,5 @@
 var assert = require('assert');
 var EventEmitter = require('events').EventEmitter;
-var util = require('util');
 
 var host = (process.env.RIEMANN_HOST ? process.env.RIEMANN_HOST : '127.0.0.1');
 

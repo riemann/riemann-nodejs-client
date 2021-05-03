@@ -20,16 +20,16 @@ test("should fire error event", function(done) {
   });
 });
 
-test("should convert from metric to metric_f", function(done) {
+test("should convert from metric to metricF", function(done) {
   var value = Math.random(100)*100;
   // Generate 'message' with 'metric' attribute
   client.Event({
     metric: value
   }).apply({
     send: function(message) {
-      // Generate 'message_f' with 'metric_f' attribute
+      // Generate 'message_f' with 'metricF' attribute
       client.Event({
-        metric_f: value
+        metricF: value
       }).apply({
         send: function(message_f) {
           // Verify message lengths match

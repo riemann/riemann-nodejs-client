@@ -1,6 +1,6 @@
-syntax = "proto2";
+syntax = "proto3";
 
-option java_package = "com.aphyr.riemann";
+option java_package = "io.riemann.riemann";
 option java_outer_classname = "Proto";
 
 message State {

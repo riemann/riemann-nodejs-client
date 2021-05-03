@@ -2,6 +2,7 @@
   "name": "riemann",
   "version": "2.0.0",
   "description": "node.js client for Riemann, supports hybrid UDP/TCP connections.",
+  "license": "MIT",
   "author": {
     "Derek Perez": "derek@derekperez.com",
     "Julien Boeuf": "julien@boeuf.org"
@@ -11,22 +12,22 @@
   ],
   "main": "riemann",
   "engines": {
-    "node": ">= 0.12"
+    "node": ">= 0.14"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/perezd/riemann-nodejs-client.git"
+    "url": "git://github.com/riemann/riemann-nodejs-client.git"
   },
   "dependencies": {
-    "protobufjs": "6.8.8",
-    "event-to-promise": "^0.8.0"
+    "event-to-promise": "^0.8.0",
+    "protobufjs": "6.11.2"
   },
   "devDependencies": {
-    "mocha": "*",
-    "jshint": "*"
+    "jshint": "*",
+    "mocha": "*"
   },
   "scripts": {
-    "lint": "find . -name '*.js' -and -not -path './node_modules/*' | xargs ./node_modules/.bin/jshint --config ./.jshint",
+    "lint": "find . -name '*.js' -and -not -path './node_modules/*' | xargs ./node_modules/.bin/jshint --config ./.jshintrc",
     "test": "NODE_PATH=./ mocha --ui tdd --reporter list --timeout 2000 --slow 5000"
   }
 }

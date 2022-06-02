@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "event-to-promise": "^0.8.0",
-    "protobufjs": "6.11.2"
+    "protobufjs": "6.11.3"
   },
   "devDependencies": {
     "jshint": "*",

@@ -24,10 +24,12 @@
   },
   "devDependencies": {
     "jshint": "*",
-    "mocha": "*"
+    "mocha": "*",
+    "mocha-junit-reporter": "^2.0.2"
   },
   "scripts": {
     "lint": "find . -name '*.js' -and -not -path './node_modules/*' | xargs ./node_modules/.bin/jshint --config ./.jshintrc",
-    "test": "NODE_PATH=./ mocha --ui tdd --reporter list --timeout 2000 --slow 5000"
+    "test": "NODE_PATH=./ mocha --ui tdd --reporter list --timeout 2000 --slow 5000",
+    "testci": "NODE_PATH=./ mocha --ui tdd --reporter mocha-junit-reporter --timeout 2000 --slow 5000"
   }
 }

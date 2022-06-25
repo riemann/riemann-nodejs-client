@@ -28,7 +28,7 @@
     "mocha-junit-reporter": "^2.0.2"
   },
   "scripts": {
-    "lint": "jshint --config .jshintrc",
+    "lint": "find . -name '*.js' -and -not -path './node_modules/*' | xargs jshint --verbose --config .jshintrc",
     "test": "NODE_PATH=./ mocha --ui tdd --reporter list --timeout 2000 --slow 5000",
     "testci": "NODE_PATH=./ mocha --ui tdd --reporter mocha-junit-reporter --timeout 2000 --slow 5000"
   }

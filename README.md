@@ -1,6 +1,6 @@
-# [Riemann](http://aphyr.github.com/riemann/) Node.js Client
+# [Riemann](https://riemann.io) Node.js Client
 
-[![Build Status](https://travis-ci.com/riemann/riemann-nodejs-client.svg?branch=master)](https://travis-ci.com/riemann/riemann-nodejs-client)
+[![Riemann NodeJS Client testing](https://github.com/riemann/riemann-nodejs-client/actions/workflows/test.yml/badge.svg)](https://github.com/riemann/riemann-nodejs-client/actions/workflows/test.yml)
 
 because you should be monitoring all of those [non-blocking buffet plates.](http://www.infinitelooper.com/?v=-sfZqL4Plxc&p=n#/242;267)
 
@@ -101,5 +101,5 @@ Contributing is easy, just send me a pull request. Please take a look at the pro
 
 - install the dependencies using `npm install`.
 - install Riemann using the [quickstart instructions](http://riemann.io/quickstart.html). A running Riemann server is required to run the tests.
-- please add tests. I'm using [Mocha](https://mochajs.org/) as a test runner, you can run the tests using `npm test`
-- please check your syntax with the included jshint configuration using `npm run-script lint`. It shouldn't report any errors.
+- please add tests. I'm using [Mocha](https://mochajs.org/) as a test runner, you can run the tests using `npm run test`
+- please check your syntax with the included jshint configuration using `npm run lint`. It shouldn't report any errors.

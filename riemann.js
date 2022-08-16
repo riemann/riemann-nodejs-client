@@ -16,4 +16,3 @@ exports.createClient = function(options, onConnect) {
     return new Client(options, onConnect);
   }
 };
-

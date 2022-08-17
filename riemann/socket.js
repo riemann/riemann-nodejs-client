@@ -90,5 +90,9 @@ tcpSocket.prototype.send = function(payload) {
   packet[2] = len >>> 8  & 0xFF;
   packet[3] = len & 0xFF;
   payload.copy(packet, 4, 0);
-  this.socket.write(packet);
+  this.socket.write(packet, err => {
+    if (err) {
+      this.socket.emit('error', err);
+    }
+  });
 };

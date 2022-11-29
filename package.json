@@ -26,7 +26,7 @@
   "devDependencies": {
     "jshint": "*",
     "mocha": "*",
-    "mocha-junit-reporter": "^2.0.2"
+    "mocha-junit-reporter": "^2.2.0"
   },
   "scripts": {
     "lint": "find . -name '*.js' -and -not -path './node_modules/*' | xargs jshint --verbose --config .jshintrc",

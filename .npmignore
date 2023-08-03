@@ -2,3 +2,4 @@
 *.md
 test/
 .jshint
+.idea

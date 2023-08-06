@@ -1,11 +1,11 @@
 var assert = require('assert');
 var EventEmitter = require('events').EventEmitter;
-var util = require('util');
 
+var host = (process.env.RIEMANN_HOST ? process.env.RIEMANN_HOST : '127.0.0.1');
 
 var client;
 test("should connect to server", function(done) {
-  client = require('riemann').createClient();
+  client = require('riemann').createClient({host: host});
   assert(client instanceof EventEmitter);
   client.on('connect', done);
 });
@@ -13,13 +13,33 @@ test("should connect to server", function(done) {
 
 var server_down;
 test("should fire error event", function(done) {
-  server_down = require('riemann').createClient({port: 66500});
+  server_down = require('riemann').createClient({host: host, port: 64500});
   server_down.on('error', function(e) {
     assert(e instanceof Error);
     done();
   });
 });
 
+test("should convert from metric to metricF", function(done) {
+  var value = Math.random(100)*100;
+  // Generate 'message' with 'metric' attribute
+  client.Event({
+    metric: value
+  }).apply({
+    send: function(message) {
+      // Generate 'message_f' with 'metricF' attribute
+      client.Event({
+        metricF: value
+      }).apply({
+        send: function(message_f) {
+          // Verify message lengths match
+          assert.strictEqual(message.length, message_f.length);
+          done();
+        }
+      });
+    }
+  });
+});
 
 test("should send an event as udp", function(done) {
   client.send(client.Event({
@@ -67,7 +87,8 @@ test("should send an event with custom attributes as tcp", function(done) {
     client.send(client.Event({
       service : 'hello_tcp_'+i,
       attributes: [{key: "session", value: "123-456-789"},
-                   {key: "metric_type", value: "random_number"}],
+                   {key: "metric_type", value: "random_number"}
+                   ],
       metric  : Math.random(100)*100,
       tags    : ['bar'] }), client.tcp);
   }
@@ -122,3 +143,22 @@ test("should disconnect from server", function(done) {
   client.disconnect();
 });
 
+suite("serialization", function() {
+  var serializer = require('../riemann/serializer');
+  var eventObj   = {
+    service    : "hello_tcp_123",
+    ttl        : "" + Math.random(100)*100,    // should be a float
+    attributes : [ {key: "foo", value: 123} ], // value should be a string
+  };
+
+  test("should not throw for type mismatch", function() {
+    serializer.serializeEvent(eventObj);
+  });
+
+  test("should cast to proper type", function() {
+    var event = serializer.deserializeEvent(serializer.serializeEvent(eventObj));
+    assert(typeof event.ttl === 'number');
+    assert(typeof event.attributes[0].value === 'string');
+  });
+
+});

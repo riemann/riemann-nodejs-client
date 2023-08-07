@@ -1,6 +1,6 @@
 {
   "name": "forter-riemann",
-  "version": "1.0.0",
+  "version": "2.2.0",
   "description": "node.js client for Riemann, supports hybrid UDP/TCP connections.",
   "license": "MIT",
   "types": "index.d.ts",

@@ -31,7 +31,7 @@ function _deserialize(type, value) {
 // Forter: filter event invalid attributes
 /* protobuf has a very strict type system, so ensure that only the
    whitelisted attributes get passed through */
-var event_fields = [ 'time', 'state', 'service', 'host', 'description', 'tags', 'ttl', 'attributes', 'metric_f' ];
+var event_fields = [ 'time', 'state', 'service', 'host', 'description', 'tags', 'ttl', 'attributes', 'metricF' ];
 function _cleanEvent(event) {
   var serializableEvent = {};
   for (var i = 0; i < event_fields.length; i++) {

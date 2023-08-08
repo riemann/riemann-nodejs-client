@@ -66,6 +66,17 @@ function _sendMessage(contents, transport) {
   };
 }
 
+function _defaultValues(payload) {
+  if (!payload.host)  { payload.host = hostname; }
+  if (!payload.time)  { payload.time = new Date().getTime()/1000; }
+  if (typeof payload.metric !== "undefined" && payload.metric !== null) {
+    // protobufjs requires this to be camel case
+    payload.metricF = payload.metric;
+    delete payload.metric;
+  }
+  return payload;
+}
+
 /* sets up a client connection to a Riemann server.
    options supports the following:
     - host (eg; my.riemannserver.biz)
@@ -122,6 +133,7 @@ exports.Client = Client;
    takes a key/value object of valid
    Event protocol buffer values. */
 Client.prototype.Event = function(event) {
+  event = _defaultValues(event);
   return _sendMessage.call(this, { events: [event] });
 };
 
@@ -130,6 +142,7 @@ Client.prototype.Event = function(event) {
    takes a key/value object of valid
    State protocol buffer values. */
 Client.prototype.State = function(state) {
+  state = _defaultValues(state);
   return _sendMessage.call(this, { states: [state] });
 };
 
